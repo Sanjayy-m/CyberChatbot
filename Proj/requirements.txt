@@ -1,0 +1,4 @@
+langchain
+chroma
+streamlit
+google-generativeai
