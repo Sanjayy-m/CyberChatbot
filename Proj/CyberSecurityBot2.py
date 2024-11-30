@@ -1,5 +1,5 @@
 import streamlit as st
-from PerformQuery import query_rag      #load the function properly
+from PerformQuery import query_rag      # Load the function properly
 import google.generativeai as ggi
 import json
 import random
@@ -13,6 +13,7 @@ from vertexai.generative_models import (
     SafetySetting,
     GenerationConfig
 )
+from google.oauth2 import service_account
 
 # Safety config
 safety_config = {
@@ -22,6 +23,15 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 
+# Load credentials from Streamlit secrets
+credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+
+# Configure Google Generative AI with the credentials
+api_key = credentials.token  # Extract API key from the credentials
+ggi.configure(api_key=api_key)
+
+# Initialize the generative model
 model = ggi.GenerativeModel("gemini-1.5-flash", safety_settings=safety_config)
 
 about = """**Cybersecurity Awareness Chatbot Overview**
@@ -35,38 +45,35 @@ Key Features:
 
 With its user-friendly interface and advanced features, the Cybersecurity Awareness Chatbot is a valuable tool for individuals looking to enhance their cybersecurity knowledge and protect themselves from online threats."""
 
-api_ = "AIzaSyB6tWvLzF5N8Qqhvrmxs0hqu6CyTEjyC4w" #replace you're API KEY here
-ggi.configure(api_key = api_)
-
 flag = 1
 used_questions = []
 
-# model = ggi.GenerativeModel("gemini-pro",safety_settings=safety_config) 
-# config = GenerationConfig(safety_settings=safety_config)
+# Initialize chat session
 chat = model.start_chat()
 res = chat.send_message("Hello")
 print(res)
 
+# Streamlit sidebar
 st.sidebar.title('Utilities')
 
-with open('Proj/questions.json', 'r') as f:      #specify the path to the json file correctly
+with open('Proj/questions.json', 'r') as f:  # Specify the path to the JSON file correctly
     questions = json.load(f)
 
 selected_tab = st.sidebar.selectbox(
     "Select your preference:",
-    ("Chat Session","Mail Classification", "Quiz Session", "About")
+    ("Chat Session", "Mail Classification", "Quiz Session", "About")
 )
 
 @st.cache_resource
 def LLM_Response(question):
     try:
-        response = chat.send_message(query_rag(question),stream=True)
+        response = chat.send_message(query_rag(question), stream=True)
         text_res = []
         for word in response:
             text_res.append(word.text)
         return " ".join(text_res)
-    except:
-        return "Error occured while handling the prompt this might be due to the fact that your prompt may contain explicit content please try someother promt 😓"
+    except Exception as e:
+        return f"An error occurred while handling the prompt: {str(e)}"
 
 def get_random_question():
     global used_questions
@@ -82,16 +89,19 @@ def get_random_question():
 
 def get_question():
     global flag
-    if flag % 2 == 0 :
+    if flag % 2 == 0:
         try:
-            response = chat.send_message("Generate a JSON with the question, choices, correct_answer, and explanation. The question should be related to cybersecurity and also generate only one and don't repeate the previous question.")
+            response = chat.send_message(
+                "Generate a JSON with the question, choices, correct_answer, and explanation. "
+                "The question should be related to cybersecurity and also generate only one "
+                "and don't repeat the previous question."
+            )
             temp = response.text
             match = re.search(r'\{.*\}', temp, re.DOTALL)
-            
             data = json.loads(match.group(0))
-            flag+=1
+            flag += 1
             return data
-        except:
+        except Exception:
             return get_random_question()
     else:
         return get_random_question()
@@ -103,32 +113,31 @@ def initialize_session_state():
 
 def quizes():
     st.title('Cybersecurity Questions')
-    
+
     if 'form_count' not in st.session_state:
         initialize_session_state()
     if not st.session_state.quiz_data:
-        st.seesion_state.quiz_data=get_question()
+        st.session_state.quiz_data = get_question()
 
     quiz_data = st.session_state.quiz_data
-    
     st.markdown(f"Question: {quiz_data['question']}")
-    
+
     form = st.form(key=f"quiz_form_{st.session_state.form_count}")
     user_choice = form.radio("Choose an answer:", quiz_data['choices'])
     submitted = form.form_submit_button("Submit your answer")
-    
+
     if submitted:
         if user_choice == quiz_data['correct_answer']:
             st.success("Correct")
         else:
             st.error("Incorrect")
         st.markdown(f"Explanation: {quiz_data['explanation']}")
-        
+
         another_question = st.button("Another question")
         with st.spinner("Calling the model for the next question"):
             session_state = st.session_state
-            session_state.quiz_data= get_question()
-        
+            session_state.quiz_data = get_question()
+
         if another_question:
             st.session_state.form_count += 1
         else:
@@ -137,7 +146,11 @@ def quizes():
 def chat_session():
     st.title("CyberSecurity Awareness Bot")
     with st.chat_message(name="assistant"):
-        st.write("Hello there! I am a chatbot designed to educate you about cybersecurity and guide you on how to protect yourself from online threats. Whether you're a beginner or an experienced user, I’m here to provide you with valuable tips, insights, and best practices to ensure your online safety and security. Let's embark on this journey to make your digital life more secure!")
+        st.write(
+            "Hello there! I am a chatbot designed to educate you about cybersecurity and guide you on how to protect yourself from online threats. "
+            "Whether you're a beginner or an experienced user, I’m here to provide you with valuable tips, insights, and best practices to ensure your online safety and security. "
+            "Let's embark on this journey to make your digital life more secure!"
+        )
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -159,7 +172,11 @@ def chat_session():
 def mail_classification_session():
     st.title("CyberSecurity Awareness Bot")
     with st.chat_message(name="assistant"):
-        st.write("Hello there! I am a chatbot designed to educate you about cybersecurity and guide you on how to protect yourself from online threats. Whether you're a beginner or an experienced user, I’m here to provide you with valuable tips, insights, and best practices to ensure your online safety and security. Let's embark on this journey to make your digital life more secure! Please provide your mail content to know the mail type !!!")
+        st.write(
+            "Hello there! I am a chatbot designed to educate you about cybersecurity and guide you on how to protect yourself from online threats. "
+            "Whether you're a beginner or an experienced user, I’m here to provide you with valuable tips, insights, and best practices to ensure your online safety and security. "
+            "Let's embark on this journey to make your digital life more secure! Please provide your mail content to know the mail type!!!"
+        )
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -183,15 +200,14 @@ def mail_classification_session():
                 ---
 
                 The predicted class is : {response}
-                """
+            """
             prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
-            prompt = prompt_template.format(prompt=prompt, response=pred_cls) 
-            response = chat.send_message(prompt,stream=True)
+            prompt = prompt_template.format(prompt=prompt, response=pred_cls)
+            response = chat.send_message(prompt, stream=True)
             text_res = []
             for word in response:
                 text_res.append(word.text)
             response = " ".join(text_res)
-            # st.markdown(pred_cls)
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
