@@ -73,6 +73,7 @@ used_questions = []
 # model = ggi.GenerativeModel("gemini-pro",safety_settings=safety_config) 
 # config = GenerationConfig(safety_settings=safety_config)
 chat = model.start_chat()
+print(chat.send_message("Hello"))
 
 st.sidebar.title('Utilities')
 
