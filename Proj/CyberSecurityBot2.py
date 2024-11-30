@@ -24,6 +24,7 @@ from huggingface_hub import hf_hub_download
 bert_model_name = 'sanjayyy/newBert'
 simcse_model_name = 'sanjayyy/newSimCSE'
 
+@st.cache(allow_output_mutation=True)
 tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
 bert_model = AutoModel.from_pretrained(bert_model_name)
 simcse_model = AutoModel.from_pretrained(simcse_model_name)
@@ -79,6 +80,7 @@ class CombinedModel(nn.Module):
 # model = CombinedModel(bert_model,simcse_model,hidden_size,num_labels=3)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_labels = 3  # Adjust as needed
+@st.cache(allow_output_mutation=True)
 mod = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
 repo_id = "sanjayyy/combinedModel"
 filename = "best_model_full.pth"
