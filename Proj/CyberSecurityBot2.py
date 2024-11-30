@@ -22,7 +22,7 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 try:
-    credentials_dict = json.load(st.secrets["google_app"])
+    credentials_dict = json.load(st.secrets.general.google_app)
     
 except KeyError:
     st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
