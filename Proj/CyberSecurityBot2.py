@@ -22,7 +22,11 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 
-credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+try:
+    credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+except KeyError:
+    st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
+    st.stop()
 credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
 # Configure Google Generative AI with the credentials
