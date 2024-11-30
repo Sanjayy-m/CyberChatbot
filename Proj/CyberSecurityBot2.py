@@ -14,6 +14,7 @@ from vertexai.generative_models import (
     GenerationConfig
 )
 
+
 # Safety config
 safety_config = {
     "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
@@ -59,6 +60,7 @@ selected_tab = st.sidebar.selectbox(
     ("Chat Session","Mail Classification", "Quiz Session", "About")
 )
 
+@st.cache_resource
 def LLM_Response(question):
     try:
         response = chat.send_message(query_rag(question),stream=True)
