@@ -16,11 +16,12 @@ from vertexai.generative_models import (
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import BertTokenizer, BertModel, AdamW, AutoModel
+from transformers import BertTokenizer, BertModel, AdamW, AutoModel, AutoTokenizer
+from huggingface_hub import hf_hub_download
 
 # Initialize Tokenizers and Models
-bert_model_name = '/Users/sanjay/Downloads/bert'
-simcse_model_name = '/Users/sanjay/Downloads/sim'
+bert_model_name = 'sanjayyy/newBert'
+simcse_model_name = 'sanjayyy/newSimCSE'
 
 tokenizer = BertTokenizer.from_pretrained(bert_model_name)
 bert_model = BertModel.from_pretrained(bert_model_name)
@@ -77,8 +78,10 @@ class CombinedModel(nn.Module):
 # model = CombinedModel(bert_model,simcse_model,hidden_size,num_labels=3)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_labels = 3  # Adjust as needed
-modl = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
-model_path = "/Users/sanjay/Downloads/AI Project (extract.me)/Proj/best_model_full.pth"
+model = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
+repo_id = "sanjayyy/combinedModel"
+filename = "best_model_full.pth"
+model_path = hf_hub_download(repo_id=repo_id, filename=filename)
 checkpoint = torch.load(model_path, map_location='cpu')
 
 # Check if the model is wrapped in DataParallel and extract the state_dict if necessary
@@ -86,8 +89,8 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
     checkpoint = checkpoint.module.state_dict()
 
 # Load the state dict
-modl.load_state_dict(checkpoint)
-modl.eval() 
+model.load_state_dict(checkpoint)
+model.eval() 
 tokenizer = BertTokenizer.from_pretrained('/Users/sanjay/Downloads/bert')  # Adjust if using a different tokenizer
 
 def predict_class(sentence):
@@ -97,7 +100,7 @@ def predict_class(sentence):
     # Forward pass on CPU
     with torch.no_grad():
         # Get the raw output logits directly from the model
-        logits = modl(inputs['input_ids'], inputs['attention_mask'], inputs.get('token_type_ids'))
+        logits = model(inputs['input_ids'], inputs['attention_mask'], inputs.get('token_type_ids'))
         
         # Get the predicted class by taking the index of the max logit
         label_map = {0: 'Ham', 1: 'Spam', 2: 'Phishing'}  # Make sure these match your class labels
