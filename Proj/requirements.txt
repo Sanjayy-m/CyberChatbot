@@ -3,7 +3,7 @@ langchain_community
 langchain_cohere
 langchain_chroma
 chroma
-chromadb
+chromadb==0.4.17
 bookworm
 pysqlite3-binary
 streamlit
