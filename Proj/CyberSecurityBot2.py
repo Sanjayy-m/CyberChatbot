@@ -22,7 +22,7 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 try:
-    credentials_dict = json.loads('''
+    credentials_dict = json.load('''
           "type": "service_account",
           "project_id": "gen-lang-client-0189500180",
           "private_key_id": "595e49ad01dfdc3878612c177a78317a0e181d82",
