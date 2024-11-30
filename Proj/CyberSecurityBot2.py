@@ -91,7 +91,7 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
 # Load the state dict
 model.load_state_dict(checkpoint)
 model.eval() 
-tokenizer = BertTokenizer.from_pretrained('/Users/sanjay/Downloads/bert')  # Adjust if using a different tokenizer
+tokenizer = BertTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
 
 def predict_class(sentence):
     # Preprocess the input sentence
