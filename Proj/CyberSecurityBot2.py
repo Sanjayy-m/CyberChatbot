@@ -16,7 +16,7 @@ from vertexai.generative_models import (
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import   AdamW, AutoModel, AutoTokenizer
+from transformers import AdamW, AutoModel, AutoTokenizer
 from huggingface_hub import hf_hub_download
 
 # Initialize Tokenizers and Models
