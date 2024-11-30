@@ -23,7 +23,7 @@ safety_config = {
 }
 st.write(st.secrets)
 try:
-    credentials_dict = json.loads(st.secrets["db_username"])
+    credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
 except KeyError:
     st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
     st.stop()
