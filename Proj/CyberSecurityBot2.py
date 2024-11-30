@@ -15,7 +15,7 @@ from vertexai.generative_models import (
 )
 
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="proj/cred.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="Proj/cred.json"
 
 # Safety config
 safety_config = {
