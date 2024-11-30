@@ -4,6 +4,7 @@ langchain_cohere
 langchain_chroma
 chroma
 chromadb
+bookworm
 pysqlite3-binary
 streamlit
 google-generativeai
