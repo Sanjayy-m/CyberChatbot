@@ -1,5 +1,5 @@
 import argparse
-from langchain_community.vectorstores.chroma import Chroma
+from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_cohere import CohereEmbeddings
 
