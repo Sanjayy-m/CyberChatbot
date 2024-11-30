@@ -1,6 +1,7 @@
 langchain
 langchain_community
 langchain_cohere
+langchain_chroma
 chroma
 streamlit
 google-generativeai
