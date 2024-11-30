@@ -6,3 +6,4 @@ streamlit
 google-generativeai
 vertexai
 torch==2.3.0
+transformers
