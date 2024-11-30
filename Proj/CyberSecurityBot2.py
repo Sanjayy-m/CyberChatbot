@@ -16,15 +16,15 @@ from vertexai.generative_models import (
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import BertTokenizer, BertModel, AdamW, AutoModel, AutoTokenizer
+from transformers import   AdamW, AutoModel, AutoTokenizer
 from huggingface_hub import hf_hub_download
 
 # Initialize Tokenizers and Models
 bert_model_name = 'sanjayyy/newBert'
 simcse_model_name = 'sanjayyy/newSimCSE'
 
-tokenizer = BertTokenizer.from_pretrained(bert_model_name)
-bert_model = BertModel.from_pretrained(bert_model_name)
+tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
+bert_model = AutoModel.from_pretrained(bert_model_name)
 simcse_model = AutoModel.from_pretrained(simcse_model_name)
 hidden_size = bert_model.config.hidden_size
 
@@ -91,7 +91,7 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
 # Load the state dict
 model.load_state_dict(checkpoint)
 model.eval() 
-tokenizer = BertTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
+tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
 
 def predict_class(sentence):
     # Preprocess the input sentence
