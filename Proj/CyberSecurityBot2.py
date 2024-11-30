@@ -22,10 +22,13 @@ from huggingface_hub import hf_hub_download
 # Initialize Tokenizers and Models
 bert_model_name = 'sanjayyy/newBert'
 simcse_model_name = 'sanjayyy/newSimCSE'
-
-tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
-bert_model = AutoModel.from_pretrained(bert_model_name)
-simcse_model = AutoModel.from_pretrained(simcse_model_name)
+@st.cache_resource
+def get_mod1():
+    tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
+    bert_model = AutoModel.from_pretrained(bert_model_name)
+    simcse_model = AutoModel.from_pretrained(simcse_model_name)
+    return tokenizer,bert_model,simcse_model
+tokenizer,bert_model,simcse_model = get_mod1()
 hidden_size = bert_model.config.hidden_size
 
 class CombinedModel(nn.Module):
@@ -79,10 +82,14 @@ class CombinedModel(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_labels = 3  # Adjust as needed
 mod = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
-repo_id = "sanjayyy/combinedModel"
-filename = "best_model_full.pth"
-model_path = hf_hub_download(repo_id=repo_id, filename=filename)
-checkpoint = torch.load(model_path, map_location='cpu')
+@st.cache_resource
+def get_pth():
+    repo_id = "sanjayyy/combinedModel"
+    filename = "best_model_full.pth"
+    model_path = hf_hub_download(repo_id=repo_id, filename=filename)
+    checkpoint = torch.load(model_path, map_location='cpu')
+    return checkpoint
+checkpoint = get_pth()
 
 # Check if the model is wrapped in DataParallel and extract the state_dict if necessary
 if isinstance(checkpoint, torch.nn.parallel.DataParallel):
@@ -91,7 +98,11 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
 # Load the state dict
 mod.load_state_dict(checkpoint)
 mod.eval() 
-tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
+@st.cache(allow_output_mutation=True)
+def get_tok():
+    tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
+    return tokenizer
+tokenizer = get_tok()
 
 def predict_class(sentence):
     # Preprocess the input sentence
