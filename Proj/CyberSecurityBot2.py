@@ -13,19 +13,6 @@ from vertexai.generative_models import (
     SafetySetting,
     GenerationConfig
 )
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-# Retrieve the JSON from secrets
-credentials_json = st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
-
-# Parse the JSON string into a dictionary
-credentials_dict = json.loads(credentials_json)
-
-# Create Google Cloud credentials from the dictionary
-credentials = service_account.Credentials.from_service_account_info(credentials_dict)
-
-# Use the credentials to initialize a Google API client
-service = build("api_name", "api_version", credentials=credentials)
 
 # Safety config
 safety_config = {
