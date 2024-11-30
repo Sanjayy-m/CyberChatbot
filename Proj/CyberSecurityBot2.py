@@ -22,7 +22,19 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 try:
-    credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+    credentials_dict = json.loads('''
+          "type": "service_account",
+          "project_id": "gen-lang-client-0189500180",
+          "private_key_id": "595e49ad01dfdc3878612c177a78317a0e181d82",
+          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCmWXbPoqTmQ/gw\n7W4F0HNJRmFd5Yh1g9pl99i+bi9LKLENeVocUUv3wTNEnDVC9peruLlKSC6tubzf\nblCogSqvnQeUUB5cHibHdIO0B57ab+O1RheQTgLeR1L0thIjgm7mSmuvGVbmksMz\nyfOLVHfuGhbQ7B78/1M904t6qZhYIzbcm2dbHoldGsafdRapbSDvOLvpzcrszZIM\nGsgUTDSx6e1a2T5e8aHOErP6nmXU43ZP9BtlIuRP3Z4xVXrGBQEnPhsuXz7zzAzL\nX6fAdsVhggu2YgzNXMi2w2E7ww5YZPdRuy8JkSG0Zb4hzGAClc+p2WIRpUda/FHr\n9YdCbDzFAgMBAAECggEAAOn9h6JWpdDaZJAH0NT2e5p9GKvh5iqaNBsHbPOkPRVi\nDhD/iEFM5nWAZ4ObA7bg894ZEonqZVgsbACqRWRasv1TZQkg3MbqCQi59buTyV9G\nnbpFXd/rDx3OnGHPU4E5EV936QEXVtjLZS9aY1N/ymY7stxhRs8zJDDtE5IqY22U\no0vY2v/dnrvFamgPUEJM7+SqSF2l41TVejeHxHTqvOy538SuFNpmhnA/zEPYTUTc\nc7t0rbHmrfsAAZOZ8kIMwmAQgvRDGmWTCfuFsTIrhjf2yrt1+XM3Do46lONVtPF7\naR4+fK+3hGwq5sQosq9k8ox9z3BCPrWa1EXO4+Ak7wKBgQDQvpGkQGp/nyVM7UTm\n0cB9ZF5hGIZdgiiqKuheis8GaqVe/mhRU/iK82ExA0L482xAu2d+SZxqILfwfldF\nYI32oZXdoRCdQ7HEc2Uu5wZKmo6FQ/P0lCzkwkM+3oxKGWLVEaaRBD6WzDP1dddE\nJeXEtlBSB7dESndoDS7KNWiSewKBgQDMAfe9PeDiAKYaPHp2kKTkhjr8LEEP4AAc\nGIAgUnmzeVd3naoef7fFkbNnumbAndAhLocPmYOCcaHQRCf+eLvGL3pA83vyehbY\nQ2O0jZyc6LpcOKqWr+rI4+AUxg/iHr2ibYpFEFa8AM2HLCnQHk96P+5TaX+ea/p4\noz8NLq/pvwKBgEtQ1v+qdkKBy1WMLlYRzB/x/NOPo7tNYRq0zI6ACt5H0E8L/9uI\nLp8D3Udv49QrEB3zAA5ixNrN31AYZaiUg+Q+vPHwUSxM5nD5KcLYfD6isVWIBRdz\n9xa6uMSQS5HYwv4Zlj2wiFykZQLld7wQ6GwnU6elPQyYyahzSTSQPKDNAoGBALvM\ni+yvi9dA1aeNSQbgfIrKbn45luMwR6mVfE1E3zeyWiyI/VP6Kog7ajXwyCpEnJYP\nKNHZddCdHmKEe3SsW99DUX19Jvq+HU2UK7LIMgXXz8aZe6Af7ThlXaCB+5kix1tB\nD2oock+7RXhL1Wn6nRtiwtgSZCLIL9jiHmbaNaItAoGBAJWHVfv/juDywMjZKbcx\nh7Zcr1+9g50zKvjhV5wXhMEeq7BmDB0OScFjzYlCFAVP2J7vDHykevGryssCThqi\nDtU6/L41G/OkP5KrM2UlruK0t1+BiVxmAix3HHyMOjku4+qDlMIPBY3tbOP/PD/a\nm5ZBN7uW4KWWi3+8vZMtlQl3\n-----END PRIVATE KEY-----\n",
+          "client_email": "cyberchatbot@gen-lang-client-0189500180.iam.gserviceaccount.com",
+          "client_id": "105753349074758750406",
+          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+          "token_uri": "https://oauth2.googleapis.com/token",
+          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+          "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cyberchatbot%40gen-lang-client-0189500180.iam.gserviceaccount.com",
+          "universe_domain": "googleapis.com"
+    ''')
 except KeyError:
     st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
     st.stop()
