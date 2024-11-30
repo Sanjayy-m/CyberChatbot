@@ -23,7 +23,7 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 
-model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
+model = ggi.GenerativeModel("gemini-1.5-flash", safety_settings=safety_config)
 
 about = """**Cybersecurity Awareness Chatbot Overview**
 
