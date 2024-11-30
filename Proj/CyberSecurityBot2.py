@@ -14,8 +14,10 @@ from vertexai.generative_models import (
     GenerationConfig
 )
 
-import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="Proj/cred.json"
+from google.oauth2 import service_account
+
+credentials = service_account.Credentials.from_service_account_file("Proj/cred.json")
+client = language.LanguageServiceClient(credentials=credentials)
 
 # Safety config
 safety_config = {
