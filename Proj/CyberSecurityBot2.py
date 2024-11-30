@@ -25,7 +25,7 @@ safety_config = {
 # Load credentials from creds.json directly
 import os
 
-creds_path = "Proj/creds.json"  # Specify the path to your creds.json file
+creds_path = "Proj/cred.json"  # Specify the path to your creds.json file
 
 # Ensure the file exists before loading
 if not os.path.exists(creds_path):
