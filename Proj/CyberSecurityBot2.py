@@ -24,7 +24,7 @@ safety_config = {
 }
 
 # Load credentials from Streamlit secrets
-credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+credentials_dict = json.loads("Proj/creds.json")
 credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
 # Configure Google Generative AI with the credentials
