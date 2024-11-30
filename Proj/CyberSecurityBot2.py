@@ -43,11 +43,6 @@ flag = 1
 used_questions = []
 
 # model = ggi.GenerativeModel("gemini-pro",safety_settings=safety_config) 
-
-chat = model.start_chat()
-response = chat.send_message("Hellooo")
-print(response)
-
 # config = GenerationConfig(safety_settings=safety_config)
 
 st.sidebar.title('Utilities')
