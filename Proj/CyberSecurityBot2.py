@@ -13,7 +13,6 @@ from vertexai.generative_models import (
     SafetySetting,
     GenerationConfig
 )
-from google.oauth2 import service_account
 
 # Safety config
 safety_config = {
@@ -23,13 +22,29 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 
-# Load credentials from Streamlit secrets
-credentials_dict = json.loads("Proj/creds.json")
+# Load credentials from creds.json directly
+import os
+
+creds_path = "Proj/creds.json"  # Specify the path to your creds.json file
+
+# Ensure the file exists before loading
+if not os.path.exists(creds_path):
+    raise FileNotFoundError(f"Credentials file not found at {creds_path}")
+
+# Load the credentials JSON file
+with open(creds_path, 'r') as f:
+    credentials_dict = json.load(f)
+
+# Generate service account credentials
+from google.oauth2 import service_account
+
 credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
 # Configure Google Generative AI with the credentials
 api_key = credentials.token  # Extract API key from the credentials
+
 ggi.configure(api_key=api_key)
+
 
 # Initialize the generative model
 model = ggi.GenerativeModel("gemini-1.5-flash", safety_settings=safety_config)
