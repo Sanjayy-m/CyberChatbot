@@ -5,4 +5,4 @@ chroma
 streamlit
 google-generativeai
 vertexai
-torch==2.1.2
+torch==2.3.0
