@@ -23,7 +23,7 @@ from huggingface_hub import hf_hub_download
 # Initialize Tokenizers and Models
 bert_model_name = 'sanjayyy/newBert'
 simcse_model_name = 'sanjayyy/newSimCSE'
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def get_mod1():
     tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
     bert_model = AutoModel.from_pretrained(bert_model_name)
@@ -83,7 +83,7 @@ class CombinedModel(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_labels = 3  # Adjust as needed
 mod = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def get_pth():
     repo_id = "sanjayyy/combinedModel"
     filename = "best_model_full.pth"
@@ -98,7 +98,7 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
 # Load the state dict
 mod.load_state_dict(checkpoint)
 mod.eval() 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def get_tok():
     tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
     return tokenizer
