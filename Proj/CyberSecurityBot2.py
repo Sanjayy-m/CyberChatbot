@@ -155,7 +155,7 @@ chat = model.start_chat()
 
 st.sidebar.title('Utilities')
 
-with open('questions.json', 'r') as f:      #specify the path to the json file correctly
+with open('Proj/questions.json', 'r') as f:      #specify the path to the json file correctly
     questions = json.load(f)
 
 selected_tab = st.sidebar.selectbox(
