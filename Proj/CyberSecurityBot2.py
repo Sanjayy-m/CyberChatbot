@@ -78,7 +78,7 @@ class CombinedModel(nn.Module):
 # model = CombinedModel(bert_model,simcse_model,hidden_size,num_labels=3)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_labels = 3  # Adjust as needed
-model = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
+mod = CombinedModel(bert_model, simcse_model, hidden_size, num_labels).to(device)
 repo_id = "sanjayyy/combinedModel"
 filename = "best_model_full.pth"
 model_path = hf_hub_download(repo_id=repo_id, filename=filename)
@@ -89,8 +89,8 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
     checkpoint = checkpoint.module.state_dict()
 
 # Load the state dict
-model.load_state_dict(checkpoint)
-model.eval() 
+mod.load_state_dict(checkpoint)
+mod.eval() 
 tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
 
 def predict_class(sentence):
@@ -100,7 +100,7 @@ def predict_class(sentence):
     # Forward pass on CPU
     with torch.no_grad():
         # Get the raw output logits directly from the model
-        logits = model(inputs['input_ids'], inputs['attention_mask'], inputs.get('token_type_ids'))
+        logits = mod(inputs['input_ids'], inputs['attention_mask'], inputs.get('token_type_ids'))
         
         # Get the predicted class by taking the index of the max logit
         label_map = {0: 'Ham', 1: 'Spam', 2: 'Phishing'}  # Make sure these match your class labels
