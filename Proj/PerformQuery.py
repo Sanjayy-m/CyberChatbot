@@ -3,6 +3,10 @@ from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_cohere import CohereEmbeddings
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 CHROMA_PATH = r"Proj/data"     #specify the path to your vector database 
 
 PROMPT_TEMPLATE = """
