@@ -98,7 +98,7 @@ if isinstance(checkpoint, torch.nn.parallel.DataParallel):
 # Load the state dict
 mod.load_state_dict(checkpoint)
 mod.eval() 
-@st.cache_resources
+@st.cache_resource
 def get_tok():
     tokenizer = AutoTokenizer.from_pretrained('sanjayyy/newBert')  # Adjust if using a different tokenizer
     return tokenizer
