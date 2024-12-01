@@ -22,9 +22,8 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
-api_ = st.secrets["GEMINI_API"]
-st.write(api_)
-ggi.configure(api_key=api_)
+api = st.secrets["GEMINI_API"]
+ggi.configure(api_key=api)
 
 
 about = """**Cybersecurity Awareness Chatbot Overview**
