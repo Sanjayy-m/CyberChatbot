@@ -1,7 +1,6 @@
 import argparse
 
 
-
 from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_cohere import CohereEmbeddings
@@ -13,10 +12,18 @@ from langchain.schema.document import Document
 from langchain_chroma import Chroma
 import shutil
 
+import shutil
+import os
+
 CHROMA_PATH = r"Proj/data"
-if not os.path.exists(CHROMA_PATH):
-    raise FileNotFoundError(f"Chroma database path not found: {CHROMA_PATH}")
-     #specify the path to your vector database 
+if os.path.exists(CHROMA_PATH):
+    shutil.rmtree(CHROMA_PATH)
+    st.write("✅ Database cleared successfully.")
+else:
+    st.write("⚠️ No database found to clear.")
+
+
+
 
 PROMPT_TEMPLATE = """
 You are a cybersecurity awareness bot with RAG implementation you provide information regarding how to protect oneself from cyber threats based on the retrieved context, If the context does not match the query then generate your own answer but make sure that you generate something don't give none output
