@@ -1,6 +1,7 @@
 import streamlit as st
 from PerformQuery import query_rag      # Load the function properly
 import google.generativeai as ggi
+from google.oauth2 import service_account
 import json
 import random
 import re
