@@ -22,9 +22,18 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
-api = st.secrets["GEMINI_API"]
+try:
+    credentials_dict = json.load(st.secrets['google_app'])
+    
+except KeyError:
+    st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
+    st.stop()
+credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+# Configure Google Generative AI with the credentials
+api_k = credentials.token  # Extract API key from the credentials
+#api = st.secrets["GEMINI_API"]
 st.write(st.secrets)
-ggi.configure(api_key=api)
+ggi.configure(api_key=api_k)
 
 
 about = """**Cybersecurity Awareness Chatbot Overview**
