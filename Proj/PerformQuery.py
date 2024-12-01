@@ -134,11 +134,8 @@ db_lock = threading.Lock()
 def query_rag(query_text: str):
     with db_lock:
         embedding_function = CohereEmbeddings(cohere_api_key="gNNfn4USH8AqKSWg0pLzCYVr4cAqDrN7Tz8HVOW8",model="small")
-        if os.path.exists(CHROMA_PATH):
-            st.write("Exists")
-        else:
-            st.write("Loading")
-            loadChroma()
+        st.write("Loading")
+        loadChroma()
         
         db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
         if not db.get_document_count():
