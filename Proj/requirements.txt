@@ -11,8 +11,7 @@ google-generativeai
 google-cloud
 google-auth
 vertexai
-tf-keras
-tensorflow
+pytorch==1.0.2
 torch==2.5.1
 transformers==4.46.3
 google-api-python-client==2.25.0
