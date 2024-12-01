@@ -84,6 +84,7 @@ res = chat.send_message("Hello")
 text_res = []
 for word in res:
     text_res.append(word.text)
+    text_res = " ".join(text_res)
 st.write(text_res)
 
 # Streamlit sidebar
