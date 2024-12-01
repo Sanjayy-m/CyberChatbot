@@ -23,7 +23,7 @@ safety_config = {
 }
 api_ = st.secrets["GEMINI_API"]
 
-ggi.configure(api_key=api_key)
+ggi.configure(api_key=api_)
 
 # Initialize the generative model
 model = ggi.GenerativeModel("gemini-1.5-flash", safety_settings=safety_config)
