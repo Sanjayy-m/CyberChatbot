@@ -11,6 +11,7 @@ google-generativeai
 google-cloud
 google-auth
 vertexai
+tf-keras
 tensorflow
 torch==2.5.1
 transformers==4.46.3
