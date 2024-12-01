@@ -17,3 +17,4 @@ tensorflow
 google-api-python-client==2.25.0
 google-auth==2.14.1
 google-cloud-aiplatform==1.71.1
+pypdf
