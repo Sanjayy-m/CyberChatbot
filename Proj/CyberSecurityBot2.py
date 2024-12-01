@@ -46,9 +46,8 @@ except KeyError:
 credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 # Configure Google Generative AI with the credentials
 api_k = credentials.token  # Extract API key from the credentials
-#api = st.secrets["GEMINI_API"]
-st.write(st.secrets)
-ggi.configure(api_key=api_k)
+api = st.secrets["GEMINI_API"]
+ggi.configure(api_key=api)
 
 
 about = """**Cybersecurity Awareness Chatbot Overview**
