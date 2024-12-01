@@ -19,7 +19,7 @@ import json
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoTokenizer, TFAutoModel
 from huggingface_hub import hf_hub_download
 
 # Load credentials from Streamlit secrets
@@ -47,8 +47,8 @@ simcse_model_name = 'sanjayyy/newSimCSE'
 @st.cache_data
 def get_mod1():
     tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
-    bert_model = AutoModel.from_pretrained(bert_model_name)
-    simcse_model = AutoModel.from_pretrained(simcse_model_name)
+    bert_model = TFAutoModel.from_pretrained(bert_model_name)
+    simcse_model = TFAutoModel.from_pretrained(simcse_model_name)
     return tokenizer,bert_model,simcse_model
 tokenizer,bert_model,simcse_model = get_mod1()
 hidden_size = bert_model.config.hidden_size
