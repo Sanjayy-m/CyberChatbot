@@ -21,16 +21,8 @@ safety_config = {
     "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
-try:
-    credentials_dict = json.load(st.secrets['google_app'])
-    
-except KeyError:
-    st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
-    st.stop()
-credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+api_ = st.secrets["GEMINI_API"]
 
-# Configure Google Generative AI with the credentials
-api_key = credentials.token  # Extract API key from the credentials
 ggi.configure(api_key=api_key)
 
 # Initialize the generative model
