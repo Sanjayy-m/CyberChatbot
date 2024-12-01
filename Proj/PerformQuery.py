@@ -16,11 +16,7 @@ import shutil
 import os
 
 CHROMA_PATH = r"Proj/data"
-if os.path.exists(CHROMA_PATH):
-    shutil.rmtree(CHROMA_PATH)
-    st.write("✅ Database cleared successfully.")
-else:
-    st.write("⚠️ No database found to clear.")
+
 
 
 
@@ -137,7 +133,12 @@ def loadChroma():
 db_lock = threading.Lock()
 def query_rag(query_text: str):
     with db_lock:
-        embedding_function = CohereEmbeddings(cohere_api_key="gNNfn4USH8AqKSWg0pLzCYVr4cAqDrN7Tz8HVOW8",model="small")        #put in your cohere api key here
+        embedding_function = CohereEmbeddings(cohere_api_key="gNNfn4USH8AqKSWg0pLzCYVr4cAqDrN7Tz8HVOW8",model="small")
+        if os.path.exists(CHROMA_PATH):
+            shutil.rmtree(CHROMA_PATH)
+            st.write("✅ Database cleared successfully.")
+        else:
+            st.write("⚠️ No database found to clear.")#put in your cohere api key here
         db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
         if not db.get_document_count():
             st.error("Database is empty. Please populate the Chroma database.")
