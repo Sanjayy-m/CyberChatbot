@@ -62,6 +62,18 @@ def configure_gemini_api(api_key):
 api_key = st.secrets["GEMINI_API"]
 configure_gemini_api(api_key)
 
+from langchain_chroma import Chroma
+from langchain_cohere import CohereEmbeddings
+
+CHROMA_PATH = r"Proj/data"
+db = Chroma(
+    persist_directory=CHROMA_PATH,
+    embedding_function=CohereEmbeddings(
+        cohere_api_key="YOUR_COHERE_API_KEY",
+        model="small"
+    )
+)
+st.write("Document count:", db.get_document_count())
 
 
 about = """**Cybersecurity Awareness Chatbot Overview**
