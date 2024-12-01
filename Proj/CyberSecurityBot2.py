@@ -80,7 +80,7 @@ used_questions = []
 # Initialize chat session
 chat = model.start_chat()
 res = chat.send_message("Hello")
-print(res)
+st.write(res)
 
 # Streamlit sidebar
 st.sidebar.title('Utilities')
