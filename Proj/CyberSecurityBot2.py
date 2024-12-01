@@ -87,6 +87,9 @@ for word in res:
     text_res = " ".join(text_res)
 st.write(text_res)
 
+
+st.write(query_rag("hello"))
+
 # Streamlit sidebar
 st.sidebar.title('Utilities')
 
