@@ -15,7 +15,7 @@ from langchain.schema.document import Document
 from langchain_chroma import Chroma
 import shutil
 
-CHROMA_PATH = os.path.abspath(r"Proj/data")
+CHROMA_PATH = r"Proj/data"
 if not os.path.exists(CHROMA_PATH):
     raise FileNotFoundError(f"Chroma database path not found: {CHROMA_PATH}")
      #specify the path to your vector database 
@@ -37,8 +37,6 @@ Please provide the context that are irrelevant rather than not providing
 If you get any greeting questions like Hi, Hello, etc just greet them if the question is like what can you do say that I am awareness bot and tell information regarding how to protect oneself from cyber attacks if the question is bye then greet them with bye
 """
 
-
-CHROMA_PATH = r"Proj/data" #specify path to your data folder correctly (just empty folder path dedicated to store vector embeddings)
 DATA_PATH = r"Proj/InfoOnCyberThreats.pdf" #specify the path to your data folder in this case it is InfoOnCyberThreats.pdf
 
 def loadChroma():
@@ -136,6 +134,11 @@ def query_rag(query_text: str):
     with db_lock:
         embedding_function = CohereEmbeddings(cohere_api_key="gNNfn4USH8AqKSWg0pLzCYVr4cAqDrN7Tz8HVOW8",model="small")        #put in your cohere api key here
         db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
+        if not db.get_document_count():
+            st.error("Database is empty. Please populate the Chroma database.")
+            return "The database is empty. No context found."
+        else:
+            st.success("Database is not empty. Please populate the Chroma database.")
         if not db.get_document_count():
             loadChroma()
     
