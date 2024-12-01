@@ -14,15 +14,6 @@ from vertexai.generative_models import (
     SafetySetting,
     GenerationConfig
 )
-
-# Safety config
-safety_config = {
-    "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
-    "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE",
-    "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
-    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
-}
-model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
 import os
 import json
 
@@ -44,6 +35,16 @@ except KeyError:
     st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
     st.stop()
 credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+
+
+# Safety config
+safety_config = {
+    "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
+    "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE",
+    "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
+    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
+}
+model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
 # Configure Google Generative AI with the credentials
 api_k = credentials.token  # Extract API key from the credentials
 api_ = st.secrets["GEMINI_API"]
@@ -80,7 +81,10 @@ used_questions = []
 # Initialize chat session
 chat = model.start_chat()
 res = chat.send_message("Hello")
-st.write(res)
+text_res = []
+for word in response:
+    text_res.append(word.text)
+st.write(text_res)
 
 # Streamlit sidebar
 st.sidebar.title('Utilities')
