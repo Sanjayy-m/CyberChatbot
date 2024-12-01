@@ -47,7 +47,20 @@ credentials = service_account.Credentials.from_service_account_info(credentials_
 # Configure Google Generative AI with the credentials
 api_k = credentials.token  # Extract API key from the credentials
 api_ = st.secrets["GEMINI_API"]
-ggi.configure(api_key=api_)
+from google.auth.transport.requests import Request
+
+# Explicitly configure the Gemini API
+def configure_gemini_api(api_key):
+    try:
+        ggi.configure(api_key=api_key)
+    except Exception as e:
+        st.error(f"Failed to configure Gemini API: {e}")
+        st.stop()
+
+# Load API key and configure Gemini
+api_key = st.secrets["GEMINI_API"]
+configure_gemini_api(api_key)
+
 
 
 about = """**Cybersecurity Awareness Chatbot Overview**
