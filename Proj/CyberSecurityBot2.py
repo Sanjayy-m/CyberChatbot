@@ -23,7 +23,7 @@ safety_config = {
 }
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
 try:
-    credentials_dict = json.load(st.secrets['GOOGLE_APPLICATION_CREDENTIALS_JSON'])
+    credentials_dict = json.loads(st.secrets['GOOGLE_APPLICATION_CREDENTIALS_JSON'])
     
 except KeyError:
     st.error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON in secrets.")
