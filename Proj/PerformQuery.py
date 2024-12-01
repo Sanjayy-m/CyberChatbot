@@ -134,14 +134,17 @@ db_lock = threading.Lock()
 def query_rag(query_text: str):
     with db_lock:
         embedding_function = CohereEmbeddings(cohere_api_key="gNNfn4USH8AqKSWg0pLzCYVr4cAqDrN7Tz8HVOW8",model="small")
+        if os.path.exists(CHROMA_PATH):
+            print("Exists")
+        else:
+            loadChroma()
+        
         db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
         if not db.get_document_count():
             st.error("Database is empty. Please populate the Chroma database.")
             return "The database is empty. No context found."
         else:
             st.success("Database is not empty. Please populate the Chroma database.")
-        if not db.get_document_count():
-            loadChroma()
     
         results = db.similarity_search_with_score(query_text, k=5)      #performing similarity search to extract meaningful content from the document k value 5 specifies that top 5 content will be extracted
     
