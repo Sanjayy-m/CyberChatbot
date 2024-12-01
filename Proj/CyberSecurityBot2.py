@@ -44,6 +44,18 @@ safety_config = {
     "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
+about = """**Cybersecurity Awareness Chatbot Overview**
+
+The Cybersecurity Awareness Chatbot is an innovative application designed to educate users about protecting themselves from cyberattacks. Built using Streamlit, Google Generative AI, LangChain, ChromaDB, and Cohere embeddings, this chatbot leverages advanced technologies to provide interactive and informative content.
+
+Key Features:
+- **Retrieval-Augmented Generation (RAG)**: Utilizes RAG to retrieve relevant information from a PDF document based on user queries, ensuring accurate and contextually rich responses.
+- **Quiz Session**: Offers a quiz session to engage users and test their knowledge of cybersecurity concepts, enhancing learning and retention.
+- **Response Generation**: Generates responses using LangChain and Gemini AI, providing accurate and insightful information to users.
+
+With its user-friendly interface and advanced features, the Cybersecurity Awareness Chatbot is a valuable tool for individuals looking to enhance their cybersecurity knowledge and protect themselves from online threats."""
+
+
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
 # Configure Google Generative AI with the credentials
 api_k = credentials.token  # Extract API key from the credentials
