@@ -23,6 +23,7 @@ safety_config = {
 }
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
 api = st.secrets["GEMINI_API"]
+st.write(api)
 ggi.configure(api_key=api)
 
 
