@@ -82,7 +82,7 @@ used_questions = []
 chat = model.start_chat()
 res = chat.send_message("Hello")
 text_res = []
-for word in response:
+for word in res:
     text_res.append(word.text)
 st.write(text_res)
 
