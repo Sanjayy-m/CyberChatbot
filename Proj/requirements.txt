@@ -11,7 +11,7 @@ google-generativeai
 google-cloud
 google-auth
 vertexai
-torch==2.3.0
+torch== 2.5.1
 transformers==4.46.3
 google-api-python-client==2.25.0
 google-auth==2.14.1
