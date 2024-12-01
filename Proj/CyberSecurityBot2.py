@@ -23,6 +23,20 @@ safety_config = {
     "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE"
 }
 model = ggi.GenerativeModel("gemini-pro", safety_settings=safety_config)
+import os
+import json
+
+# Load credentials from Streamlit secrets
+credentials_dict = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+
+# Write the credentials to a temporary file
+with open("temp_service_account.json", "w") as f:
+    json.dump(credentials_dict, f)
+
+# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "temp_service_account.json"
+
+
 try:
     credentials_dict = json.loads(st.secrets['GOOGLE_APPLICATION_CREDENTIALS_JSON'])
     
